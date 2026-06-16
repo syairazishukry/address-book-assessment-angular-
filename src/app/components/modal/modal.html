@@ -1,0 +1,55 @@
+<div class="modal-content">
+  <dx-form
+    [formData]="formData"
+    [readOnly]="!isEditMode"
+    [showColonAfterLabel]="true"
+    labelLocation="top"
+    [colCount]="1">
+    
+    <dxi-item dataField="name" editorType="dxTextBox">
+      <dxi-validation-rule type="required" message="Name is required"></dxi-validation-rule>
+    </dxi-item>
+    
+    <dxi-item dataField="email" editorType="dxTextBox">
+      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+    </dxi-item>
+    
+    <dxi-item dataField="phone" editorType="dxTextBox">
+      <dxi-validation-rule type="pattern" [pattern]="phonePattern" message="Phone cannot contain letters"></dxi-validation-rule>
+    </dxi-item>
+
+    <dxi-item itemType="group" caption="Address">
+      <dxi-item dataField="street" editorType="dxTextBox"></dxi-item>
+      <dxi-item dataField="state" editorType="dxSelectBox" [editorOptions]="{ items: states, searchEnabled: true, placeholder: 'Select State' }"></dxi-item>
+      <dxi-item dataField="postcode" editorType="dxTextBox">
+        <dxi-validation-rule type="pattern" [pattern]="postcodePattern" message="Postcode must be number only"></dxi-validation-rule>
+      </dxi-item>
+    </dxi-item>
+
+    <dxi-item dataField="description" editorType="dxTextBox"></dxi-item>
+
+  </dx-form>
+
+  <div class="modal-actions">
+    <dx-button
+      *ngIf="!isNew && !isEditMode"
+      text="Edit"
+      type="default"
+      (onClick)="onEditClick()">
+    </dx-button>
+    
+    <dx-button
+      *ngIf="isEditMode"
+      [text]="buttonText"
+      type="default"
+      (onClick)="onSaveClick()">
+    </dx-button>
+    
+    <dx-button
+      text="Cancel"
+      stylingMode="outlined"
+      type="normal"
+      (onClick)="onCancelClick()">
+    </dx-button>
+  </div>
+</div>

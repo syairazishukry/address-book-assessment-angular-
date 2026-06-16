@@ -1,0 +1,52 @@
+<div class="list-container">
+  <dx-data-grid
+    [dataSource]="contacts"
+    [showBorders]="true"
+    [hoverStateEnabled]="true"
+    (onRowClick)="onRowClick($event)">
+
+    <dxo-toolbar>
+      <dxi-item location="before">
+        <div class="toolbar-title">Address Book</div>
+      </dxi-item>
+      <dxi-item location="after">
+        <dx-button icon="add" text="Add Contact" type="default" (onClick)="onAddClick()"></dx-button>
+      </dxi-item>
+    </dxo-toolbar>
+
+    <dxi-column dataField="name" caption="Name"></dxi-column>
+    <dxi-column dataField="email" caption="Email"></dxi-column>
+    <dxi-column dataField="phone" caption="Phone"></dxi-column>
+    <dxi-column caption="Address" [calculateCellValue]="calculateAddress"></dxi-column>
+    
+    <dxi-column caption="Actions" cellTemplate="actionCellTemplate" [width]="80" alignment="center"></dxi-column>
+
+    <div *dxTemplate="let cellInfo of 'actionCellTemplate'">
+      <dx-button 
+        icon="trash" 
+        stylingMode="text" 
+        type="danger" 
+        (onClick)="onDeleteClick($event, cellInfo)">
+      </dx-button>
+    </div>
+  </dx-data-grid>
+
+  <dx-popup
+    [(visible)]="isModalVisible"
+    [width]="600"
+    [height]="'auto'"
+    title="Contact Details"
+    [showTitle]="true"
+    [dragEnabled]="false"
+    [hideOnOutsideClick]="false"
+    [showCloseButton]="true">
+    <div *dxTemplate="let data of 'content'">
+      <app-modal 
+        *ngIf="isModalVisible"
+        [contact]="selectedContact" 
+        (save)="onModalSave($event)" 
+        (cancel)="onModalCancel()">
+      </app-modal>
+    </div>
+  </dx-popup>
+</div>
